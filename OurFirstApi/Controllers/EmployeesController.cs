@@ -38,6 +38,7 @@ namespace OurFirstApi.Controllers
                 }
             }
         }
+        
 
         //api/employees/3000
         public HttpResponseMessage Get(int id)
@@ -59,6 +60,75 @@ namespace OurFirstApi.Controllers
                     }
 
                     return Request.CreateResponse(HttpStatusCode.OK, result);
+                }
+                catch (Exception ex)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+                }
+            }
+        }
+
+
+        // POST //api/employees/employee
+        public HttpResponseMessage Post(EmployeeListResult employee)
+        {
+            using (var connection = 
+                new SqlConnection(ConfigurationManager.ConnectionStrings["chinook"].ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    connection.Execute("Insert into Employee(FirstName, LastName) " +
+                                       "Values(@firstName, @lastName)",
+                                       new { FirstName = employee.FirstName, LastName = employee.LastName });
+
+                    return Request.CreateResponse(HttpStatusCode.Created);
+                }
+                catch (Exception ex)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+                }
+            }
+        }
+
+        // PUT api/values/99
+        public HttpResponseMessage Put(int id, EmployeeListResult employee)
+        {
+            using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["chinook"].ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    connection.Execute("update Employee " +
+                                       "set LastName = @changedLastName " +
+                                       "where EmployeeId = @selectedID",
+                                       new { changedLastName = employee.LastName, selectedID = id });
+
+                    return Request.CreateResponse(HttpStatusCode.Accepted);
+                }
+                catch (Exception ex)
+                {
+                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex);
+                }
+            }
+        }
+
+
+        // DELETE api/values/99
+        public HttpResponseMessage Delete(int id)
+        {
+            using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["chinook"].ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    connection.Execute("delete from Employee where EmployeeId = @thisEmployee",
+                                        new { thisEmployee = id });
+
+                    return Request.CreateResponse(HttpStatusCode.OK);
                 }
                 catch (Exception ex)
                 {
