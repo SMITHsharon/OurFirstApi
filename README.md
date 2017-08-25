@@ -9,8 +9,8 @@ This assignment converted the ChinookConsole app Add, Update and Delete methods 
 
 
 ```
-git clone https://github.com/SMITHsharon/nameParserUnitTesting.git
-cd nameParserUnitTesting
+git clone git@github.com:SMITHsharon/OurFirstApi.git
+cd OurFirstApi
 ```
 
 ### Contributor
