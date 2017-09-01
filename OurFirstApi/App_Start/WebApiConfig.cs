@@ -11,9 +11,10 @@ namespace OurFirstApi
         {
             // Web API configuration and services
 
-            // Web API routes
+            // Web API routes (my defined)
             config.MapHttpAttributeRoutes();
 
+            // to recognize the default routes
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                           // GET api/values      /5
