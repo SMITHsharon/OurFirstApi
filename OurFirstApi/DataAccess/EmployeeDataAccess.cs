@@ -81,7 +81,7 @@ namespace OurFirstApi.DataAccess
 
 
         // Put
-        public int Update(int id, EmployeeListResult employee)
+        public int Update(EmployeeListResult employee)
         {
             using (var connection =
                    new SqlConnection(ConfigurationManager.ConnectionStrings["Chinook"].ConnectionString))
@@ -90,12 +90,17 @@ namespace OurFirstApi.DataAccess
 
                 var affectedRows = connection.Execute
                                ("Update Employee " +
+                                "set FirstName = employee.FirstName, " +
+                                "LastName = employee.LastName " +
+                                "Where EmployeeId = employee.EmployeeId");
+
+            /*                     ("Update Employee " +
                                 "set FirstName = @changedFirstName, " +
                                 "LastName = @changedLastName " +
                                 "Where EmployeeId = @employeeId " +
-                                "Values(@changedFirstName, @changedLastName, employeeId = id)",
-                                 new { changedFirstName = employee.FirstName, changedLastName = employee.LastName });
-
+                                "Values(@changedFirstName, @changedLastName, @employeeId)" +
+                                new { changedFirstName = employee.FirstName, changedLastName = employee.LastName, employeeId = employee.EmployeeId }); 
+            */
                 return affectedRows;
                 
             }
@@ -128,6 +133,6 @@ public interface IRepository<T>
     List<T> GetAll();
     T Get(int id);
     int AddEmployee(T entityToAdd);
-    int Update(int id, T entityToUpdate);
+    int Update(T entityToUpdate);
     int Delete(int id);
 }
