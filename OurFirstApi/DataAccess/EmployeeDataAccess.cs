@@ -71,8 +71,8 @@ namespace OurFirstApi.DataAccess
                 connection.Open();
 
                 var affectedRows = connection.Execute
-                                              ("Insert into Employee(FirstName, LastName) " +
-                                               "Values(@firstName, @lastName)",
+                                              ("insert into Employee(FirstName, LastName) " +
+                                               "values(@firstName, @lastName)",
                                                new { FirstName = employee.FirstName, LastName = employee.LastName });
 
                 return affectedRows;

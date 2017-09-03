@@ -81,7 +81,7 @@ namespace OurFirstApi.Controllers
         }
 
 
-        //api/employees/3000
+        //api/employee/3000
         //[HttpGet, Route("api/employee/name/{firstname}")]
         [HttpGet, Route("name/{firstname}")]
         public HttpResponseMessage Get(string firstName)
@@ -112,7 +112,7 @@ namespace OurFirstApi.Controllers
         }
 
 
-        // POST //api/employees/employee
+        // POST //api/employee
         [HttpPost, Route("add")]
         public HttpResponseMessage Post(EmployeeListResult employee)
         {
@@ -169,7 +169,7 @@ namespace OurFirstApi.Controllers
         }
 
 
-        // DELETE api/values/99
+        // DELETE api/employee/99
         [HttpDelete, Route("delete/{id}")]
         public HttpResponseMessage Delete(int id)
         {
