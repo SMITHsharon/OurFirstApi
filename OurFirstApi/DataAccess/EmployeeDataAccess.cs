@@ -37,8 +37,8 @@ namespace OurFirstApi.DataAccess
                 connection.Open();
 
                 var result = connection.QueryFirstOrDefault<EmployeeListResult>
-                                ("Select * From Employee where EmployeeId = @id",
-                                 new { id = id });
+                                        ("Select * From Employee where EmployeeId = @id",
+                                         new { id = id });
 
                 return result;
             }
@@ -54,8 +54,8 @@ namespace OurFirstApi.DataAccess
                 connection.Open();
 
                 var result = connection.QueryFirstOrDefault<EmployeeListResult>
-                                ("Select * From Employee where FirstName = @firstname",
-                            new { firstName });
+                                        ("Select * From Employee where FirstName = @firstname",
+                                         new { firstName });
 
                 return result;
             }
@@ -71,9 +71,9 @@ namespace OurFirstApi.DataAccess
                 connection.Open();
 
                 var affectedRows = connection.Execute
-                                ("Insert into Employee(FirstName, LastName) " +
-                                 "Values(@firstName, @lastName)",
-                                  new { FirstName = employee.FirstName, LastName = employee.LastName });
+                                              ("Insert into Employee(FirstName, LastName) " +
+                                               "Values(@firstName, @lastName)",
+                                               new { FirstName = employee.FirstName, LastName = employee.LastName });
 
                 return affectedRows;
             }
@@ -81,7 +81,7 @@ namespace OurFirstApi.DataAccess
 
 
         // Put
-        public int Update(EmployeeListResult employee)
+        public int Update(int id, EmployeeListResult employee)
         {
             using (var connection =
                    new SqlConnection(ConfigurationManager.ConnectionStrings["Chinook"].ConnectionString))
@@ -89,18 +89,15 @@ namespace OurFirstApi.DataAccess
                 connection.Open();
 
                 var affectedRows = connection.Execute
-                               ("Update Employee " +
-                                "set FirstName = employee.FirstName, " +
-                                "LastName = employee.LastName " +
-                                "Where EmployeeId = employee.EmployeeId");
-
-            /*                     ("Update Employee " +
-                                "set FirstName = @changedFirstName, " +
-                                "LastName = @changedLastName " +
-                                "Where EmployeeId = @employeeId " +
-                                "Values(@changedFirstName, @changedLastName, @employeeId)" +
-                                new { changedFirstName = employee.FirstName, changedLastName = employee.LastName, employeeId = employee.EmployeeId }); 
-            */
+                                              ("update Employee " +
+                                               "set FirstName = @changedFirstName, " +
+                                               "LastName = @changedLastName " +
+                                               "where EmployeeId = @employeeId",
+                                               new { changedFirstName = employee.FirstName,
+                                                     changedLastName = employee.LastName,
+                                                     employeeId = id
+                                                   });
+ 
                 return affectedRows;
                 
             }
@@ -116,8 +113,8 @@ namespace OurFirstApi.DataAccess
                 connection.Open();
 
                 var affectedRows = connection.Execute
-                                ("delete from Employee where EmployeeId = @thisEmployee",
-                                  new { thisEmployee = id });
+                                              ("delete from Employee where EmployeeId = @thisEmployee",
+                                              new { thisEmployee = id });
 
                 return affectedRows;
             }
@@ -133,6 +130,6 @@ public interface IRepository<T>
     List<T> GetAll();
     T Get(int id);
     int AddEmployee(T entityToAdd);
-    int Update(T entityToUpdate);
+    int Update(int id, T entityToUpdate);
     int Delete(int id);
 }

@@ -137,8 +137,8 @@ namespace OurFirstApi.Controllers
         }
 
         // PUT api/employee (RoutePrefix)
-        [HttpPut, Route("update")]
-        public HttpResponseMessage Put(EmployeeListResult employee)
+        [HttpPut, Route("update/{id}")]
+        public HttpResponseMessage Put(int id, EmployeeListResult employee)
         {
             try
             {
@@ -151,7 +151,7 @@ namespace OurFirstApi.Controllers
                 //                   new { changedLastName = employee.LastName, selectedID = id });
 
                 var employeeData = new EmployeeDataAccess();
-                var affectedRows = employeeData.Update(employee);
+                var affectedRows = employeeData.Update(id, employee);
 
                 if (affectedRows == 0)
                 {
